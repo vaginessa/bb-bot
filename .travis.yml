@@ -1,5 +1,7 @@
 dist: trusty
 sudo: required
+env:
+  - VER="1.26.2-YDS"
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq p7zip-full realpath

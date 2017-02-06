@@ -16,10 +16,10 @@
 # along with BB-Bot.  If not, see <http://www.gnu.org/licenses/>.
 
 set -e
-VER="1.26.2-YDS"
 STATUS="Stable"
 DATE="`date +'%d %b/%y'`"
-CORES="`lscpu | grep '^CPU(s)' | cut -d : -f2 | tr -d ' '`"
+# CORES="`lscpu | grep '^CPU(s)' | cut -d : -f2 | tr -d ' '`"
+CORES=50
 echo "Cores: $CORES"
 export VER STATUS DATE CORES
 CURRDIR=$PWD
@@ -31,6 +31,7 @@ else
 	git pull
 	cd "`dirname $0`"
 fi
+echo -e "\n\nStarting BB-Bot build v${VER}-${TRAVIS_BUILD_NUMBER}\n\n"
 ./gettoolchains.sh
 mkdir -p ../out
 mkdir -p ../bbx/Bins/mipseb
