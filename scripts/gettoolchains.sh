@@ -26,7 +26,7 @@ for i in *.tar.xz
 do
 	echo "Extracting $i--"
 	# tar Jxf $i || exit 1
-	( xz -dcq -T32 $i | tar xf - ) || exit 1
+	( xz -dcq -T$CORES $i | tar xf - ) || exit 1
 done
 for path in /usr/lib/x86_64-linux-gnu /usr/lib/i386-linux-gnu /usr/lib
 do
