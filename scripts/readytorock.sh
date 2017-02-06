@@ -19,7 +19,7 @@ set -e
 STATUS="Stable"
 DATE="`date +'%d %b/%y'`"
 # CORES="`lscpu | grep '^CPU(s)' | cut -d : -f2 | tr -d ' '`"
-CORES=50
+CORES=32
 echo "Cores: $CORES"
 export VER STATUS DATE CORES
 CURRDIR=$PWD
@@ -40,7 +40,7 @@ wget http://ftp.gnu.org/gnu/automake/automake-1.15.tar.gz
 tar xf automake*
 cd automake-1.15
 ( sh configure --prefix /usr/local
-sudo make install ) &>/dev/null
+sudo make -j$CORES install ) &>/dev/null
 cd ..
 ./build-ssl.sh
 ./build-bb.sh all
