@@ -37,6 +37,9 @@ mips*)
 	toolc=$MIPSMUSL
 	suffix=mips
 	;;
+*)
+	echo "Invalid arch selected!"
+	;;
 esac
 
 _host=$(find $toolc/bin -name "*rorschack*gcc" | sed 's/.*\///;s/-gcc//')

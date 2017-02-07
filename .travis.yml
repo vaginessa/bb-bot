@@ -16,10 +16,10 @@ env:
   global:
     - VER="1.26.2-YDS"
   matrix:
-    - TOBUILD="arm arm64"
-    - TOBUILD="x86 x86_64"
-    - TOBUILD="mips mips64"
-    - TOBUILD="mipseb"
+    - TO_BUILD="arm arm64"
+    - TO_BUILD="x86 x86_64"
+    - TO_BUILD="mips mips64"
+    - TO_BUILD="mipseb"
 after_success: "./scripts/settags.sh"
 deploy:
   provider: releases
