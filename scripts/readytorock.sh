@@ -18,10 +18,7 @@
 set -e
 STATUS="Stable"
 DATE="`date +'%d %b/%y'`"
-# CORES="`lscpu | grep '^CPU(s)' | cut -d : -f2 | tr -d ' '`"
-CORES=32
-echo "Cores: $CORES"
-export VER STATUS DATE CORES
+export STATUS DATE
 CURRDIR=$PWD
 cd "`dirname $0`"
 if [[ ! -d ../busybox ]]
@@ -32,18 +29,8 @@ else
 	cd "`dirname $0`"
 fi
 echo -e "\n\nStarting BB-Bot build v${VER}-${TRAVIS_BUILD_NUMBER}\n\n"
-./gettoolchains.sh
-mkdir -p ../out
-mkdir -p ../bbx/Bins/mipseb
-# install aclocal-1.15
-wget http://ftp.gnu.org/gnu/automake/automake-1.15.tar.gz
-tar xf automake*
-cd automake-1.15
-( sh configure --prefix /usr/local
-sudo make -j$CORES install ) &>/dev/null
-cd ..
 ./build-ssl.sh
-./build-bb.sh all
+./build-bb.sh
 ./update-bins.sh
 ./createtgz.sh
 ./mkzip.sh

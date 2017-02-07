@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with BB-Bot.  If not, see <http://www.gnu.org/licenses/>.
 ##SET TOOLCHAIN NAMES
-TOOLCHAINDIR="$PWD/toolchains"
+TOOLCHAINDIR="$(realpath `dirname $0`)/toolchains"
 ARM=$TOOLCHAINDIR/armhf-uClibc
 #ARM=$TOOLCHAINDIR/arm-uClibc
 ARM64=$TOOLCHAINDIR/aarch64-glibc

@@ -1,15 +1,26 @@
 dist: trusty
 sudo: required
-env:
-  - VER="1.26.2-YDS"
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq p7zip-full realpath
   - chmod +x scripts/*
-install: true
+install: "./scripts/gettoolchains.sh"
+# matrix:
+#   include:
+#     - env: TOBUILD="arm arm64"
+#     - env: TOBUILD="x86 x86_64"
+#     - env: TOBUILD="mips mips64"
+#     - env: TOBUILD="mipseb"
 script: "./scripts/readytorock.sh"
-after_success:
-  - "./scripts/settags.sh"
+env:
+  global:
+    - VER="1.26.2-YDS"
+  matrix:
+    - TOBUILD="arm arm64"
+    - TOBUILD="x86 x86_64"
+    - TOBUILD="mips mips64"
+    - TOBUILD="mipseb"
+after_success: "./scripts/settags.sh"
 deploy:
   provider: releases
   prerelease: true
