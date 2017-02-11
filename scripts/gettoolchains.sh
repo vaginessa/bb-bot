@@ -24,7 +24,7 @@ arm*)
 	URL="https://www.dropbox.com/sh/65cbtyrtrp515rv/AACRniuul2POnG9i_RZ2-CnDa?dl=1"
 	;;
 x86*)
-	URL="https://www.dropbox.com/sh/7rgc1hflc9sigq4/AABQfjN5SkcAanaPmiFqESVWa?dl=0"
+	URL="https://www.dropbox.com/sh/7rgc1hflc9sigq4/AABQfjN5SkcAanaPmiFqESVWa?dl=1"
 	;;
 mipseb)
 	URL="https://www.dropbox.com/sh/y5wyteer79kgh61/AAC4YG1j44CEwt-fdsklbETua?dl=1"
