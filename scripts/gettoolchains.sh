@@ -19,13 +19,29 @@ CURRDIR=$PWD
 cd "`dirname $0`"
 export CORES="`lscpu | grep '^CPU(s)' | cut -d : -f2 | tr -d ' '`"
 echo "Cores: $CORES"
-URL="https://www.dropbox.com/sh/sovqvaf2p86og06/AAAyRYCRXHWfCy2uabMB34Qfa?dl=1"
-wget $URL -O toolchains.zip || exit 1
-unzip -o toolchains.zip '*.tar.xz' toolchains.md5 BoxIO*.jar -d toolchains
+case $TO_BUILD in
+arm*)
+	URL="https://www.dropbox.com/sh/65cbtyrtrp515rv/AACRniuul2POnG9i_RZ2-CnDa?dl=1"
+	;;
+x86*)
+	URL="https://www.dropbox.com/sh/7rgc1hflc9sigq4/AABQfjN5SkcAanaPmiFqESVWa?dl=0"
+	;;
+mipseb)
+	URL="https://www.dropbox.com/sh/y5wyteer79kgh61/AAC4YG1j44CEwt-fdsklbETua?dl=1"
+	;;
+mips*)
+	URL="https://www.dropbox.com/sh/261npsf2sreef6c/AAASJuujyu5obE3S7UHAoz-ra?dl=1"
+	;;
+*)
+	echo "Invalid arch selected!"
+	;;
+esac
+cd toolchains
 if [[ $TO_BUILD != "boxemup" ]]
 	then
-	cd toolchains
-	md5sum -c toolchains.md5 || exit 1
+	wget $URL -O toolchains.zip || exit 1
+	unzip -o toolchains.zip '*.tar.xz' toolchains.md5
+	md5sum -c --ignore-missing toolchains.md5 || exit 1
 	for i in *.tar.xz
 	do
 		echo "Extracting $i--"
@@ -39,6 +55,8 @@ if [[ $TO_BUILD != "boxemup" ]]
 		fi
 	done
 fi
+URL="https://dl.dropboxusercontent.com/s/ylo44m6e1iqy717/BoxIO-1.0.1.jar"
+wget $URL || exit 1
 
 # # install aclocal-1.15
 # wget http://ftp.gnu.org/gnu/automake/automake-1.15.tar.gz
