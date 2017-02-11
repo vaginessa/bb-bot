@@ -17,7 +17,7 @@ env:
   - TO_BUILD="mipseb"
   - TO_BUILD="boxemup"
 after_success:
-- if [ $TO_BUILD != "boxemup" ]; then exit; fi
+- test "$TO_BUILD" != "boxemup" && exit
 - scripts/settags.sh
 deploy:
   provider: releases
