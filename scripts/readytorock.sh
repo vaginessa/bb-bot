@@ -21,13 +21,6 @@ DATE="`date +'%d %b/%y'`"
 export STATUS DATE
 CURRDIR=$PWD
 cd "`dirname $0`"
-if [[ ! -d ../busybox ]]
-	then (cd .. && git clone https://github.com/yashdsaraf/busybox.git)
-else
-	cd ../busybox
-	git pull
-	cd "`dirname $0`"
-fi
 echo -e "\n\nStarting BB-Bot build v${VER}-${TRAVIS_BUILD_NUMBER} ${TO_BUILD}\n\n"
 . ./toolchain-exports.sh
 if [[ $TO_BUILD == "boxemup" ]]
@@ -47,6 +40,13 @@ if [[ $TO_BUILD == "boxemup" ]]
 	cd ..
 	mv ../*zip .
 else
+	if [[ ! -d ../busybox ]]
+		then (cd .. && git clone https://github.com/yashdsaraf/busybox.git)
+	else
+		cd ../busybox
+		git pull
+		cd "`dirname $0`"
+	fi
 	./build-ssl.sh
 	./build-bb.sh
 	cd ../out
