@@ -52,7 +52,7 @@ if [[ $TO_BUILD != "boxemup" ]]
 		fi
 	done
 fi
-URL="https://dl.dropboxusercontent.com/s/ylo44m6e1iqy717/BoxIO-1.0.1.jar"
+URL="https://dl.dropboxusercontent.com/s/m2l7jq53mus018o/BoxIO-1.0.1.jar"
 wget $URL || exit 1
 
 # # install aclocal-1.15

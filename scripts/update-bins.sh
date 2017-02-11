@@ -22,7 +22,7 @@ for i in arm x86 mips mipseb
 do
 	echo $i
 	echo "======================================================"
-	cd Bins/$i
+	mkdir -p cd Bins/$i && cd Bins/$i
 	( rm busybox*
 	rm ssl_helper ) 2>/dev/null
 	cp -v ../../../out/ssl_helper-$i ssl_helper

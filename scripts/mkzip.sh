@@ -39,8 +39,8 @@ for i in arm:arm64 x86:x86_64 mips:mips64
 do
 	echo -e "\\n$i\\n"
 	rm -rf *
-	ARCH=${i% *}
-	ARCH64=${i#* }
+	ARCH=${i%:*}
+	ARCH64=${i#*:}
 	cp ../addusergroup.sh .
 	cp -r ../META-INF .
 	cp ../Bins/$ARCH/* .

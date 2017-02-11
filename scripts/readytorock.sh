@@ -40,13 +40,7 @@ if [[ $TO_BUILD == "boxemup" ]]
 	cd ..
 	mv ../*zip .
 else
-	if [[ ! -d ../busybox ]]
-		then (cd .. && git clone https://github.com/yashdsaraf/busybox.git)
-	else
-		cd ../busybox
-		git pull
-		cd "`dirname $0`"
-	fi
+	(cd .. && git clone https://github.com/yashdsaraf/busybox.git)
 	./build-ssl.sh
 	./build-bb.sh
 	cd ../out
