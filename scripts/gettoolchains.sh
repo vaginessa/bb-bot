@@ -32,16 +32,13 @@ mipseb)
 mips*)
 	URL="https://www.dropbox.com/sh/261npsf2sreef6c/AAASJuujyu5obE3S7UHAoz-ra?dl=1"
 	;;
-*)
-	echo "Invalid arch selected!"
-	;;
 esac
+mkdir -p toolchains
 cd toolchains
 if [[ $TO_BUILD != "boxemup" ]]
 	then
 	wget $URL -O toolchains.zip || exit 1
-	unzip -o toolchains.zip '*.tar.xz' toolchains.md5
-	md5sum -c --ignore-missing toolchains.md5 || exit 1
+	unzip -o toolchains.zip '*.tar.xz'
 	for i in *.tar.xz
 	do
 		echo "Extracting $i--"
