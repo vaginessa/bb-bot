@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copyright 2016 Yash D. Saraf
+# Copyright 2017 Yash D. Saraf
 # This file is part of BB-Bot.
 
 # BB-Bot is free software: you can redistribute it and/or modify
@@ -14,8 +14,6 @@
 
 # You should have received a copy of the GNU General Public License
 # along with BB-Bot.  If not, see <http://www.gnu.org/licenses/>.
-
-. ./toolchain-exports.sh
 
 CURRDIR=$PWD
 cd "`dirname $0`/../wolfssl"

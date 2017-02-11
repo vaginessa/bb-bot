@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copyright 2016 Yash D. Saraf
+# Copyright 2017 Yash D. Saraf
 # This file is part of BB-Bot.
 
 # BB-Bot is free software: you can redistribute it and/or modify
@@ -28,19 +28,28 @@ else
 	git pull
 	cd "`dirname $0`"
 fi
-echo -e "\n\nStarting BB-Bot build v${VER}-${TRAVIS_BUILD_NUMBER}\n\n"
-./build-ssl.sh
-./build-bb.sh
-./update-bins.sh
-./createtgz.sh
-./mkzip.sh
-cd ../bbx/out
-DIR=`date +'%b-%d-%y'`
-mkdir -p $DIR
-cd $DIR
-mkdir -p Tars
-cd Tars
-mv ../../../Bins/*tar.gz .
-cd ..
-mv ../*zip .
+echo -e "\n\nStarting BB-Bot build v${VER}-${TRAVIS_BUILD_NUMBER} ${TO_BUILD}\n\n"
+. ./toolchain-exports.sh
+if [[ $TO_BUILD == "boxemup" ]]
+	then
+	mkdir -p ../out
+	cd ../out
+	java -jar $TOOLCHAINDIR/BoxIO-1.0.0.jar ../credentials.properties LISTEN 17
+	cd ../scripts
+	./update-bins.sh
+	./createtgz.sh
+	./mkzip.sh
+	cd ../bbx/out
+	DIR=`date +'%b-%d-%y'`
+	mkdir -p $DIR/Tars
+	cd $DIR/Tars
+	mv ../../../Bins/*tar.gz .
+	cd ..
+	mv ../*zip .
+else
+	./build-ssl.sh
+	./build-bb.sh
+	cd ../out
+	java -jar $TOOLCHAINDIR/BoxIO-1.0.0.jar ../credentials.properties UPLOAD *
+fi
 cd $CURRDIR

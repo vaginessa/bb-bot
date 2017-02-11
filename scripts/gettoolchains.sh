@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copyright 2016 Yash D. Saraf
+# Copyright 2017 Yash D. Saraf
 # This file is part of BB-Bot.
 
 # BB-Bot is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@ export CORES="`lscpu | grep '^CPU(s)' | cut -d : -f2 | tr -d ' '`"
 echo "Cores: $CORES"
 URL="https://www.dropbox.com/sh/sovqvaf2p86og06/AAAyRYCRXHWfCy2uabMB34Qfa?dl=1"
 wget $URL -O toolchains.zip || exit 1
-unzip -o toolchains.zip '*.tar.xz' toolchains.md5 -d toolchains
+unzip -o toolchains.zip '*.tar.xz' toolchains.md5 BoxIO.jar -d toolchains
 cd toolchains
 md5sum -c toolchains.md5 || exit 1
 for i in *.tar.xz
@@ -41,9 +41,9 @@ mkdir -p ../out
 mkdir -p ../bbx/Bins/mipseb
 
 # install aclocal-1.15
-wget http://ftp.gnu.org/gnu/automake/automake-1.15.tar.gz
-tar xf automake*
-cd automake-1.15
-( sh configure --prefix /usr/local
-sudo make -j$CORES install ) &>/dev/null
+# wget http://ftp.gnu.org/gnu/automake/automake-1.15.tar.gz
+# tar xf automake*
+# cd automake-1.15
+# ( sh configure --prefix /usr/local
+# sudo make -j$CORES install ) &>/dev/null
 cd $CURRDIR
