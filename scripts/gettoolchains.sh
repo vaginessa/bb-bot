@@ -21,26 +21,26 @@ export CORES="`lscpu | grep '^CPU(s)' | cut -d : -f2 | tr -d ' '`"
 echo "Cores: $CORES"
 URL="https://www.dropbox.com/sh/sovqvaf2p86og06/AAAyRYCRXHWfCy2uabMB34Qfa?dl=1"
 wget $URL -O toolchains.zip || exit 1
-unzip -o toolchains.zip '*.tar.xz' toolchains.md5 BoxIO.jar -d toolchains
-cd toolchains
-md5sum -c toolchains.md5 || exit 1
-for i in *.tar.xz
-do
-	echo "Extracting $i--"
-	# tar Jxf $i || exit 1
-	( xz -dcq -T$CORES $i | tar xf - ) || exit 1
-done
-for path in /usr/lib/x86_64-linux-gnu /usr/lib/i386-linux-gnu /usr/lib
-do
-	if [[ -d $path ]]
-		then sudo cp -avf lib/* $path
-	fi
-done
-cd ..
-mkdir -p ../out
-mkdir -p ../bbx/Bins/mipseb
+unzip -o toolchains.zip '*.tar.xz' toolchains.md5 BoxIO*.jar -d toolchains
+if [[ $TO_BUILD != "boxemup" ]]
+	then
+	cd toolchains
+	md5sum -c toolchains.md5 || exit 1
+	for i in *.tar.xz
+	do
+		echo "Extracting $i--"
+		# tar Jxf $i || exit 1
+		( xz -dcq -T$CORES $i | tar xf - ) || exit 1
+	done
+	for path in /usr/lib/x86_64-linux-gnu /usr/lib/i386-linux-gnu /usr/lib
+	do
+		if [[ -d $path ]]
+			then sudo cp -avf lib/* $path
+		fi
+	done
+fi
 
-# install aclocal-1.15
+# # install aclocal-1.15
 # wget http://ftp.gnu.org/gnu/automake/automake-1.15.tar.gz
 # tar xf automake*
 # cd automake-1.15

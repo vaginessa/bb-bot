@@ -34,7 +34,7 @@ if [[ $TO_BUILD == "boxemup" ]]
 	then
 	mkdir -p ../out
 	cd ../out
-	java -jar $TOOLCHAINDIR/BoxIO-1.0.0.jar ../credentials.properties LISTEN 17
+	java -jar $TOOLCHAINDIR/BoxIO*.jar ../credentials.properties LISTEN 17
 	cd ../scripts
 	./update-bins.sh
 	./createtgz.sh
@@ -50,6 +50,6 @@ else
 	./build-ssl.sh
 	./build-bb.sh
 	cd ../out
-	java -jar $TOOLCHAINDIR/BoxIO-1.0.0.jar ../credentials.properties UPLOAD *
+	java -jar $TOOLCHAINDIR/BoxIO*.jar ../credentials.properties UPLOAD *
 fi
 cd $CURRDIR
