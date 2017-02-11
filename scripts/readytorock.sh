@@ -23,9 +23,9 @@ CURRDIR=$PWD
 cd "`dirname $0`"
 echo -e "\n\nStarting BB-Bot build v${VER}-${TRAVIS_BUILD_NUMBER} ${TO_BUILD}\n\n"
 . ./toolchain-exports.sh
+mkdir -p ../out
 if [[ $TO_BUILD == "boxemup" ]]
 	then
-	mkdir -p ../out
 	cd ../out
 	java -jar $TOOLCHAINDIR/BoxIO*.jar ../credentials.properties LISTEN 17
 	cd ../scripts
