@@ -35,28 +35,30 @@ mkzip() {
 mkdir -p workspace out
 rm -rf out/*
 cd workspace
-i="$TO_BUILD"
-echo -e "\\n$i\\n"
+for i in arm:arm64 x86:x86_64 mips:mips64
+do
+	echo -e "\\n$i\\n"
+	rm -rf *
+	ARCH=${i% *}
+	ARCH64=${i#* }
+	cp ../addusergroup.sh .
+	cp -r ../META-INF .
+	cp ../Bins/$ARCH/* .
+	sed -i -e "s|^ARCH=.*|ARCH=$ARCH|;s|^ARCH64=.*|ARCH64=$ARCH64|;s|^STATUS=.*|STATUS=\"$STATUS\"|;\
+	s|^DATE=.*|DATE=\"$DATE\"|;s|^VER=.*|VER=\"$VER\"|" META-INF/com/google/android/update-binary
+	mkzip $ARCH
+	#7za a -tzip $(realpath ../out)/BusyBox-"$VER"-"$(tr 'a-z' 'A-Z' <<< $i)"-YDS.zip \
+	#    META-INF busybox*
+done
 rm -rf *
-ARCH=${i% *}
-ARCH64=${i#* }
+echo -e "\\nALL-ARCHS\\n"
+cp -r ../AIO/META-INF .
+sed -i -e "s|^STATUS=.*|STATUS=\"$STATUS\"|;s|^DATE=.*|DATE=\"$DATE\"|;s|^VER=.*|VER=\"$VER\"|"\
+ META-INF/com/google/android/update-binary
 cp ../addusergroup.sh .
-cp -r ../META-INF .
-cp ../Bins/$ARCH/* .
-sed -i -e "s|^ARCH=.*|ARCH=$ARCH|;s|^ARCH64=.*|ARCH64=$ARCH64|;s|^STATUS=.*|STATUS=\"$STATUS\"|;\
-s|^DATE=.*|DATE=\"$DATE\"|;s|^VER=.*|VER=\"$VER\"|" META-INF/com/google/android/update-binary
-mkzip $ARCH
-#7za a -tzip $(realpath ../out)/BusyBox-"$VER"-"$(tr 'a-z' 'A-Z' <<< $i)"-YDS.zip \
-#    META-INF busybox*
+for i in arm x86 mips; do
+    cp -r ../Bins/$i .
+done
+mkzip Universal
 rm -rf *
-# echo -e "\\nALL-ARCHS\\n"
-# cp -r ../AIO/META-INF .
-# sed -i -e "s|^STATUS=.*|STATUS=\"$STATUS\"|;s|^DATE=.*|DATE=\"$DATE\"|;s|^VER=.*|VER=\"$VER\"|"\
-#  META-INF/com/google/android/update-binary
-# cp ../addusergroup.sh .
-# for i in arm x86 mips; do
-#     cp -r ../Bins/$i .
-# done
-# mkzip Universal
-# rm -rf *
 cd $CURRDIR
