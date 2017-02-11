@@ -20,7 +20,12 @@ then
 	if [[ -z "$TRAVIS_TAG" ]]
 		then
 		echo -e "Starting to tag commit.\n"
-		export TRAVIS_TAG="v${VER}-${TRAVIS_BUILD_NUMBER}-${TO_BUILD}"
+		git config --global user.email "travis@travis-ci.org"
+		git config --global user.name "Travis"
+		# Add tag and push to master.
+		git tag -a v${VER}-${TRAVIS_BUILD_NUMBER}-${TO_BUILD} -m "Travis build $TRAVIS_BUILD_NUMBER pushed a tag."
+		git push origin --tags
+		git fetch origin
 		echo -e "Done tagging this build.\n"
 	fi
 fi
