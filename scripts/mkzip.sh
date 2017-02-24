@@ -26,7 +26,7 @@ SIGNAPKJAR=$SIGNAPKDIR/inc.signapk.jar ##Provided by MastahF@xda
 
 mkzip() {
     ZIPNAME=$(realpath ../out)/Busybox-"$VER"-"$(tr 'a-z' 'A-Z' <<< $1)".zip
-    7za a -tzip -r $ZIPNAME *
+    7za a -tzip -mx0 -r $ZIPNAME *
     # $ZIPALIGN -f -v 4 $ZIPNAME $ZIPNAME.aligned
     # mv -fv $ZIPNAME.aligned $ZIPNAME
     java -Xms256m -Xmx256m -jar $SIGNAPKJAR -w $PEM $PK8 $ZIPNAME $ZIPNAME.signed
@@ -36,30 +36,31 @@ mkzip() {
 mkdir -p workspace out
 rm -rf out/*
 cd workspace
-for i in arm:arm64 x86:x86_64 mips:mips64
-do
-	echo -e "\\n$i\\n"
-	rm -rf *
+# for i in arm:arm64 x86:x86_64 mips:mips64
+# do
+i=${TO_BUILD/ /:}
+[[ $i == "mipseb" ]] && exit
+
+echo -e "\\n$i\\n"
+cp ../addusergroup.sh .
+if [[ $i == "boxemup" ]]
+	then
+	cp -r ../AIO/META-INF .
+	sed -i -e "s|^STATUS=.*|STATUS=\"$STATUS\"|;s|^DATE=.*|DATE=\"$DATE\"|;s|^VER=.*|VER=\"$VER\"|"\
+	 META-INF/com/google/android/update-binary
+	for i in arm x86 mips
+	do cp -r ../Bins/$i .
+	done
+	mkzip Universal
+else
 	ARCH=${i%:*}
 	ARCH64=${i#*:}
-	cp ../addusergroup.sh .
 	cp -r ../META-INF .
 	cp ../Bins/$ARCH/* .
 	sed -i -e "s|^ARCH=.*|ARCH=$ARCH|;s|^ARCH64=.*|ARCH64=$ARCH64|;s|^STATUS=.*|STATUS=\"$STATUS\"|;\
 	s|^DATE=.*|DATE=\"$DATE\"|;s|^VER=.*|VER=\"$VER\"|" META-INF/com/google/android/update-binary
 	mkzip $ARCH
-	#7za a -tzip $(realpath ../out)/BusyBox-"$VER"-"$(tr 'a-z' 'A-Z' <<< $i)"-YDS.zip \
-	#    META-INF busybox*
-done
-rm -rf *
-echo -e "\\nALL-ARCHS\\n"
-cp -r ../AIO/META-INF .
-sed -i -e "s|^STATUS=.*|STATUS=\"$STATUS\"|;s|^DATE=.*|DATE=\"$DATE\"|;s|^VER=.*|VER=\"$VER\"|"\
- META-INF/com/google/android/update-binary
-cp ../addusergroup.sh .
-for i in arm x86 mips; do
-    cp -r ../Bins/$i .
-done
-mkzip Universal
+fi
+# done
 rm -rf *
 cd $CURRDIR

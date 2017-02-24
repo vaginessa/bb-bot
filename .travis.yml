@@ -1,36 +1,33 @@
 dist: trusty
 sudo: required
 before_install:
-- openssl aes-256-cbc -K $encrypted_1a2cff5fdb56_key -iv $encrypted_1a2cff5fdb56_iv
-  -in credentials.properties.enc -out credentials.properties -d
-- chmod +x scripts/*
-- scripts/install-dependencies.sh
-install: scripts/gettoolchains.sh
+  - openssl aes-256-cbc -K $encrypted_745e51b9b24e_key -iv $encrypted_745e51b9b24e_iv
+  -in certificate.pem.enc -out scripts/signapk/certificate.pem -d
+  - chmod +x scripts/*.{sh,py}
+  - scripts/install-dependencies.sh
+install:
+  - if test "$TO_BUILD" != "boxemup"; then scripts/gettoolchains.sh; else pip install -q requests; fi
 script: scripts/readytorock.sh
 env:
   global:
-  - VER="1.26.2-YDS"
-  - STATUS="stable"
-  - BUILD_TAG="v${VER}-${TRAVIS_BUILD_NUMBER}"
+    - VER="1.26.2-YDS"
+    - STATUS="stable"
+    - BUILD_TAG="v${VER}-${TRAVIS_BUILD_NUMBER}"
   matrix:
-  - TO_BUILD="arm arm64"
-  - TO_BUILD="x86 x86_64"
-  - TO_BUILD="mips mips64"
-  - TO_BUILD="mipseb"
-  - TO_BUILD="boxemup"
-after_success:
-- test "$TO_BUILD" != "boxemup" && exit
-- scripts/settags.sh
+    - TO_BUILD="boxemup"
+    - TO_BUILD="arm arm64"
+    - TO_BUILD="x86 x86_64"
+    - TO_BUILD="mips mips64"
+    - TO_BUILD="mipseb"
 deploy:
   provider: releases
   prerelease: true
   api_key:
-    secure: kl5QcSTO7wGygBGmCwJZNsfBw7SgTxjREKGKB8xdaVUroTgWfcRKcD7U75CUbTdj47IO8eG8vbgc/MN21I1X692nhduxAkx1961dBkDwE4m6q5133EPNXrxI5MNpCO5vur+XQHzWMCkAC58ffBTMuS57ygeP7NAXA5Td5ZGj3mXrfYDWmnH6wDb68iAwUjT0J1sMUMpT3nQ56Fz6FMThTz1ArcojK5ncwvxmMEOWR8PplmsDPf4KGJxcrad5MjjMujjx6JcZ3tVNfNJwy9w1EyTgoccaIQ+fj6Efh1g2uLLn0n3UUOANLTsYcb1vWf86ucJBtGIvwQuj4NyyFqdsTuEzCAUKEgxcj1R0sCWBeAl6/UvM6IvSxhQl5YJH+XQg7jUKcMLxy703tuah4qNgUs1ENJkQuk7XhZltsfL2Fcj7q/BRBlfzTs7qYaPtxDBKVdVmBlDeXQfF8OXoweaKEgJhl3lcQUY0FaBI4vJqE+uVJvVem9m4iBjdOi8IGvfi1NKJFAF4nmpgFW7GbJT2F0bsdN/gfj2CrvQpPF/N8JN/GqaE3miHMk0j3iTjy+q2duUI2PtuLfXZJonTR0bxed+ZMSkRMEaJ+FN3SotzxNsV8VgqIhEjQo+QppCkvXt1JdgUPT+uQwm8yVx2WVQF4jH5Rc6PAYUo8CAmPEj5Tz4=
-  file:
-  - "bbx/out/*/*.zip"
-  - "bbx/out/*/Tars/*.tar.gz"
+    secure: btDNEDzrs05cuIHBPaycJ69YoGsU/j6LF+jnnKBFWd2feDEm1VRRsmQmOPkBixMSkneY2xwe1OuPcDccESpt/42pq5M3PeVuKR3AbInwAXaoxk+xTSMXzjE0zZ2MvRIie9aOnIhg/ujbWYk7rSSBQMzzYJ4MmuqksLfCzhsnV+qgLuJv3zarTbpc88jn8Us327bzCckOI+rBy/64+uHmKtZP0mSYw41RFoCkuSiUAWqD5oYZ1iTVSJz7NOQO/ragU/s9mIhvDZtBqJoQNONRZnsgkYhArI5XxULApueXGdWbCWxoh+SJur4Li7cxtJ39WHGrcS5uGmvNoj5+4SF/vyhkgJTNJZc1iP2qomNFp+vS+x3UkCIUWY7zWJb6WvUzAl30m6GcnBTuC+uq48kr+2OXNgo7ZP9d3A+iDn3ne7alNQ8/Rcw1aKK+/o6aZzE4kMKlv1wcWEwB4E2gBHLG5KcT85EdTcai6x8QniV4ru/bjcrCjucV7tKcbAEetdvba2uY/n8ceyHOuJlE2u/psNIwjsXtqZcyt4yZW/XDqtVZB0aYe/iupc4YC7VapA4nNr8xUrh8BZLacA5F1r52YU2m/itmcGusw6oEI2mIgMPjWqGpejpda27Z0bNeTzyI7S3oa95Q0wtcqifMXKfMIZ3EgHqtKlAz4669Sd/FrfY=
+  file: bbx/out/*
   file_glob: true
   skip_cleanup: true
   on:
-    branch: testing
+    tags: true
     repo: yashdsaraf/bb-bot
+    branch: testing

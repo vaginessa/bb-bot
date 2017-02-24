@@ -28,11 +28,11 @@ rm busybox
 SEL=$(sort <(echo -e "$NORMAL\n$SEL") | uniq -u)
 NORMAL="$(tr '\n' ' ' <<<$NORMAL | sed 's/ /, /g')"
 SEL="$(tr '\n' ' ' <<<$SEL | sed 's/ /, /g')"
-echo "Normal build --"
+echo "Normal build -- $(wc -w <<< $NORMAL)"
 echo "===================================================================="
 echo ${NORMAL:: -2}
 echo ""
-echo "SELinux build (excluding the above applets) --"
+echo "SELinux build (excluding the above applets) -- $(expr `wc -w <<< $SEL` + `wc -w <<< $NORMAL`)"
 echo "===================================================================="
 echo ${SEL:: -2}
 cd $CURRDIR

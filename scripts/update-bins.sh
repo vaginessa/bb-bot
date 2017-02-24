@@ -18,35 +18,36 @@
 EXTRA=
 CURRDIR=$PWD
 cd "`dirname $0`/../bbx"
-for i in arm x86 mips mipseb
-do
-	echo $i
-	echo "======================================================"
-	mkdir -p cd Bins/$i && cd Bins/$i
-	( rm busybox*
-	rm ssl_helper ) 2>/dev/null
-	cp -v ../../../out/ssl_helper-$i ssl_helper
-	if [[ $i != "mipseb" ]]
-	then
-		cat > "bins.md5" <<EOF
+# for i in arm x86 mips mipseb
+# do
+i=${TO_BUILD% *}
+echo $i
+echo "======================================================"
+mkdir -p cd Bins/$i && cd Bins/$i
+( rm busybox*
+rm ssl_helper ) 2>/dev/null
+cp -v ../../../out/ssl_helper-$i ssl_helper
+if [[ $i != "mipseb" ]]
+then
+	cat > "bins.md5" <<EOF
 $(md5sum ssl_helper)
 $(md5sum xzdec)
 EOF
-	fi
-	for f in $(ls ../../../out/busybox-${i}{64,_64,}-*)
-	do
-		[[ $f =~ "nosel" ]] || EXTRA="-sel"
-		[[ $f =~ "64" ]] && EXTRA="64$EXTRA"
-		cp -v $f "busybox$EXTRA"
-		xz -eq9 "busybox$EXTRA"
-		rm "busybox$EXTRA" 2>/dev/null
-		[[ $i != "mipseb" ]] &&
-		echo "$(md5sum busybox$EXTRA.xz)" >> "bins.md5"
-		EXTRA=
-	done 2>/dev/null
-	cp ../../../out/ssl_helper-$i ssl_helper 2>/dev/null
-	echo "======================================================"
-	echo ""
-	cd ../..
-done
+fi
+for f in $(ls ../../../out/busybox-${i}{64,_64,}-*)
+do
+	[[ $f =~ "nosel" ]] || EXTRA="-sel"
+	[[ $f =~ "64" ]] && EXTRA="64$EXTRA"
+	cp -v $f "busybox$EXTRA"
+	xz -eq9 "busybox$EXTRA"
+	rm "busybox$EXTRA" 2>/dev/null
+	[[ $i != "mipseb" ]] &&
+	echo "$(md5sum busybox$EXTRA.xz)" >> "bins.md5"
+	EXTRA=
+done 2>/dev/null
+cp ../../../out/ssl_helper-$i ssl_helper 2>/dev/null
+echo "======================================================"
+echo ""
+# cd ../..
+# done
 cd $CURRDIR

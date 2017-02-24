@@ -19,29 +19,19 @@ set -e
 export DATE="`date +'%d %b/%y'`"
 CURRDIR=$PWD
 cd "`dirname $0`"
-echo -e "\n\nStarting BB-Bot build v${VER}-${TRAVIS_BUILD_NUMBER} ${TO_BUILD}\n\n"
+echo -e "\n\nStarting BB-Bot build $BUILD_TAG ${TO_BUILD}\n\n"
 . ./toolchain-exports.sh
 mkdir -p ../out
 if [[ $TO_BUILD == "boxemup" ]]
 	then
-	cd ../out
-	java -jar $TOOLCHAINDIR/BoxIO*.jar ../credentials.properties LISTEN 17
-	cd ../scripts
-	./update-bins.sh
-	./createtgz.sh
-	./mkzip.sh
-	cd ../bbx/out
-	DIR=`date +'%b-%d-%y'`
-	mkdir -p $DIR/Tars
-	cd $DIR/Tars
-	mv ../../../Bins/*tar.gz .
-	cd ..
-	mv ../*zip .
+	./settags.sh
+	./download-files.py
 else
 	(cd .. && git clone https://github.com/yashdsaraf/busybox.git)
 	./build-ssl.sh
 	./build-bb.sh
-	cd ../out
-	java -jar $TOOLCHAINDIR/BoxIO*.jar ../credentials.properties UPLOAD *
+	./update-bins.sh
+	./createtgz.sh
 fi
+./mkzip.sh
 cd $CURRDIR
