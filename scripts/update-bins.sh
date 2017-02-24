@@ -49,5 +49,4 @@ EOF
 	echo ""
 	cd ../..
 done
-# [[ $i != "mipseb" ]] && sed -i "s/  /=/g" bins.md5
 cd $CURRDIR

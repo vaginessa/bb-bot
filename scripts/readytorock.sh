@@ -16,9 +16,7 @@
 # along with BB-Bot.  If not, see <http://www.gnu.org/licenses/>.
 
 set -e
-STATUS="Stable"
-DATE="`date +'%d %b/%y'`"
-export STATUS DATE
+export DATE="`date +'%d %b/%y'`"
 CURRDIR=$PWD
 cd "`dirname $0`"
 echo -e "\n\nStarting BB-Bot build v${VER}-${TRAVIS_BUILD_NUMBER} ${TO_BUILD}\n\n"
