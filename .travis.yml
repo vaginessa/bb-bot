@@ -21,6 +21,7 @@ env:
   - TO_BUILD="x86 x86_64"
   - TO_BUILD="mips mips64"
   - TO_BUILD="mipseb"
+before_deploy: scripts/settags.sh
 deploy:
   provider: releases
   api_key:
@@ -30,3 +31,4 @@ deploy:
   skip_cleanup: true
   on:
     repo: yashdsaraf/bb-bot
+    all_branches: true
