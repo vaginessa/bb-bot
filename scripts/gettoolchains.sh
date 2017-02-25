@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with BB-Bot.  If not, see <http://www.gnu.org/licenses/>.
 
+[[ "$TO_BUILD" != "boxemup" ]] && exit 0
+
 CURRDIR=$PWD
 cd "`dirname $0`"
 export CORES="`lscpu | grep '^CPU(s)' | cut -d : -f2 | tr -d ' '`"
@@ -52,8 +54,6 @@ if [[ $TO_BUILD != "boxemup" ]]
 		fi
 	done
 fi
-URL="https://dl.dropboxusercontent.com/s/m2l7jq53mus018o/BoxIO-1.0.1.jar"
-wget $URL || exit 1
 
 # # install aclocal-1.15
 # wget http://ftp.gnu.org/gnu/automake/automake-1.15.tar.gz

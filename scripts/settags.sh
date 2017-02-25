@@ -15,22 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with BB-Bot.  If not, see <http://www.gnu.org/licenses/>.
 
-BRANCH="master"
-
-if [[ "$TRAVIS_BRANCH" == "$BRANCH" ]]
+if [[ -z "$TRAVIS_TAG" ]]
 	then
-	if [[ "$TRAVIS_PULL_REQUEST" == false ]]
-	then
-		if [[ -z "$TRAVIS_TAG" ]]
-			then
-			echo -e "Starting to tag commit.\n"
-			git config --global user.email "travis@travis-ci.org"
-			git config --global user.name "Travis"
-			# Add tag and push to master.
-			git tag -a "v${VER}-${TRAVIS_BUILD_NUMBER}" -m "Travis build $TRAVIS_BUILD_NUMBER pushed a tag."
-			git push origin --tags
-			git fetch origin
-			echo -e "Done tagging this build.\n"
-		fi
-	fi
+	echo -e "Starting to tag commit.\n"
+	git config --global user.email "travis@travis-ci.org"
+	git config --global user.name "Travis"
+	git tag -a $BUILD_TAG -m "Travis build $TRAVIS_BUILD_NUMBER pushed a tag."
+	git push origin --tags
+	git fetch origin
+	echo -e "Done tagging this build.\n"
 fi

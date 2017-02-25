@@ -17,6 +17,7 @@
 
 CURRDIR=$PWD
 cd "`dirname $0`/../wolfssl"
+
 case $TO_BUILD in
 arm*)
 	toolc=$ARMMUSL
