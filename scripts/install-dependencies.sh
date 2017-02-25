@@ -18,7 +18,7 @@
 if [[ $TO_BUILD == "boxemup" ]]
 	then
 	sudo apt-get update -qq
-	sudo pip install -q requests
+	sudo pip3 install -qq requests
 else
 	sudo add-apt-repository ppa:jonathonf/automake -y
 	sudo apt-get update -qq
