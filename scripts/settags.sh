@@ -15,13 +15,15 @@
 # You should have received a copy of the GNU General Public License
 # along with BB-Bot.  If not, see <http://www.gnu.org/licenses/>.
 
-if [[ -z "$TRAVIS_TAG" ]]
+git config --global user.email "travis@travis-ci.org"
+git config --global user.name "Travis"
+
+if -z $TRAVIS_TAG && ! (git ls-remote --tags | grep -wq $BUILD_TAG) &>/dev/null
 	then
 	echo -e "Starting to tag commit.\n"
-	git config --global user.email "travis@travis-ci.org"
-	git config --global user.name "Travis"
 	git tag -a $BUILD_TAG -m "Travis build $TRAVIS_BUILD_NUMBER pushed a tag."
 	git push origin --tags
-	git fetch origin
 	echo -e "Done tagging this build.\n"
 fi
+
+git fetch origin

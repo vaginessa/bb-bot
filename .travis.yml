@@ -19,7 +19,7 @@ env:
     - TO_BUILD="x86 x86_64"
     - TO_BUILD="mips mips64"
     - TO_BUILD="mipseb"
-after_success: git -c user.email="travis@travis-ci.org" -c user.name="Travis" fetch origin
+before_deploy: scripts/settags.sh
 deploy:
   provider: releases
   prerelease: true
@@ -28,6 +28,5 @@ deploy:
   file_glob: true
   skip_cleanup: true
   on:
-    tags: true
     repo: yashdsaraf/bb-bot
     all_branches: true
