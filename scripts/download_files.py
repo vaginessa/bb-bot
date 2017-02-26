@@ -1,6 +1,6 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
-import json, requests, sys
+import requests, sys
 from concurrent.futures import ThreadPoolExecutor
 from zipfile import ZipFile
 from os import environ, remove
@@ -12,7 +12,7 @@ ver = environ['VER']
 url = 'https://api.github.com/repos/yashdsaraf/bb-bot/releases/tags/' + tag
 
 headers = {
-	'Authorisation': 'token ' + token
+	'Authorization': 'token ' + token
 }
 
 archs = ('ARM','X86','MIPS')
@@ -20,10 +20,11 @@ archs = ('ARM','X86','MIPS')
 def download(arch):
 	file = 'Busybox-' + ver + '-' + arch + '.zip'
 	print('Downloading ' + file + '...')
-	data = requests.get(url, headers=headers).json()
+	response = requests.get(url, headers=headers)
+	data = response.json()
 
-	if 'url' not in data:
-		print("Invalid tag found!")
+	if response.status_code != 200:
+		print('Error ' + str(response.status_code) + ': ' + data['message'])
 		sys.exit()
 
 	tag_url = data['url'] + '/assets'

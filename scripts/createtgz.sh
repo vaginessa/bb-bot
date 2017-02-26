@@ -15,18 +15,17 @@
 # You should have received a copy of the GNU General Public License
 # along with BB-Bot.  If not, see <http://www.gnu.org/licenses/>.
 
-DIR=$RANDOM
+DIR="`dirname $0`/$RANDOM"
 CURRDIR=$PWD
-cd "`dirname $0`/../bbx/Bins"
-mkdir $DIR
+mkdir -p $DIR
 cd $DIR
 # for i in arm x86 mips mipseb
 # do
 i=${TO_BUILD% *}
 echo -e "\\n$i\\n"
-cp ../../../out/*$i* .
+cp ../../out/*$i* .
 tar zcvf BusyBox-$VER-$(tr 'a-z' 'A-Z' <<<$i).tar.gz *
-mv *.tar.gz ../../out/
+mv *.tar.gz ../../bbx/out
 rm -rf *
 # done
 cd ..

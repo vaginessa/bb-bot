@@ -19,12 +19,12 @@ env:
     - TO_BUILD="x86 x86_64"
     - TO_BUILD="mips mips64"
     - TO_BUILD="mipseb"
-before_deploy: scripts/settags.sh
+before_deploy:
+  - git -c user.email="travis@travis-ci.org" -c user.name="Travis" fetch origin
 deploy:
   provider: releases
   prerelease: true
-  api_key:
-    secure: btDNEDzrs05cuIHBPaycJ69YoGsU/j6LF+jnnKBFWd2feDEm1VRRsmQmOPkBixMSkneY2xwe1OuPcDccESpt/42pq5M3PeVuKR3AbInwAXaoxk+xTSMXzjE0zZ2MvRIie9aOnIhg/ujbWYk7rSSBQMzzYJ4MmuqksLfCzhsnV+qgLuJv3zarTbpc88jn8Us327bzCckOI+rBy/64+uHmKtZP0mSYw41RFoCkuSiUAWqD5oYZ1iTVSJz7NOQO/ragU/s9mIhvDZtBqJoQNONRZnsgkYhArI5XxULApueXGdWbCWxoh+SJur4Li7cxtJ39WHGrcS5uGmvNoj5+4SF/vyhkgJTNJZc1iP2qomNFp+vS+x3UkCIUWY7zWJb6WvUzAl30m6GcnBTuC+uq48kr+2OXNgo7ZP9d3A+iDn3ne7alNQ8/Rcw1aKK+/o6aZzE4kMKlv1wcWEwB4E2gBHLG5KcT85EdTcai6x8QniV4ru/bjcrCjucV7tKcbAEetdvba2uY/n8ceyHOuJlE2u/psNIwjsXtqZcyt4yZW/XDqtVZB0aYe/iupc4YC7VapA4nNr8xUrh8BZLacA5F1r52YU2m/itmcGusw6oEI2mIgMPjWqGpejpda27Z0bNeTzyI7S3oa95Q0wtcqifMXKfMIZ3EgHqtKlAz4669Sd/FrfY=
+  api_key: $TOKEN
   file: bbx/out/*
   file_glob: true
   skip_cleanup: true
