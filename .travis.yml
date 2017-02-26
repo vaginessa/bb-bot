@@ -19,8 +19,7 @@ env:
     - TO_BUILD="x86 x86_64"
     - TO_BUILD="mips mips64"
     - TO_BUILD="mipseb"
-before_deploy:
-  - git -c user.email="travis@travis-ci.org" -c user.name="Travis" fetch origin
+after_success: git -c user.email="travis@travis-ci.org" -c user.name="Travis" fetch origin
 deploy:
   provider: releases
   prerelease: true

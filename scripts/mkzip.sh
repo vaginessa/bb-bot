@@ -18,7 +18,7 @@
 #FLASHABLE ZIP CREATOR
 CURRDIR=$PWD
 cd "`dirname $0`/../bbx"
-SIGNAPKDIR="`dirname $0`/signapk"
+SIGNAPKDIR="../scripts/signapk"
 # ZIPALIGN=~/opt/android-sdk-linux/build-tools/25.0.2/zipalign
 PEM=$SIGNAPKDIR/certificate.pem
 PK8=$SIGNAPKDIR/testkey.pk8
