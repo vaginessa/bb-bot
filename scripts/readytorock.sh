@@ -24,7 +24,7 @@ echo -e "\n\nStarting BB-Bot build $BUILD_TAG ${TO_BUILD}\n\n"
 mkdir -p ../out
 if [[ $TO_BUILD == "boxemup" ]]
 	then
-	./set_tags.py
+	# ./set_tags.py
 	./download_files.py
 else
 	(cd .. && git clone https://github.com/yashdsaraf/busybox.git)
