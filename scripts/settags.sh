@@ -17,13 +17,7 @@
 
 git config --global user.email "travis@travis-ci.org"
 git config --global user.name "Travis"
-
-if -z $TRAVIS_TAG && ! (git ls-remote --tags | grep -wq $BUILD_TAG) &>/dev/null
-	then
-	echo -e "Starting to tag commit.\n"
-	git tag -a $BUILD_TAG -m "Travis build $TRAVIS_BUILD_NUMBER pushed a tag."
-	git push origin --tags
-	echo -e "Done tagging this build.\n"
-fi
-
-git fetch origin
+echo -e "Starting to tag commit.\n"
+git tag -a $BUILD_TAG -m "Travis build $TRAVIS_BUILD_NUMBER pushed a tag."
+git push origin --tags
+echo -e "Done tagging this build.\n"
