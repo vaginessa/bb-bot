@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with BB-Bot.  If not, see <http://www.gnu.org/licenses/>.
 
+[[ "$TO_BUILD" == "boxemup" ]] && exit 0
+
 CURRDIR=$PWD
 cd "`dirname $0`"
 export CORES="`lscpu | grep '^CPU(s)' | cut -d : -f2 | tr -d ' '`"

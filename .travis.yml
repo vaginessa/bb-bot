@@ -1,11 +1,12 @@
 dist: trusty
 sudo: required
+language: python
+python: 3.5"
 before_install:
-  - openssl aes-256-cbc -K $encrypted_745e51b9b24e_key -iv $encrypted_745e51b9b24e_iv -in certificate.pem.enc -out scripts/signapk/certificate.pem -d
+  - openssl aes-256-cbc -K $encrypted_1a2cff5fdb56_key -iv $encrypted_1a2cff5fdb56_iv -in certificate.pem.enc -out scripts/signapk/certificate.pem -d
   - chmod +x scripts/*.{sh,py}
   - scripts/install-dependencies.sh
-install:
-  - if test "$TO_BUILD" != "boxemup"; then scripts/gettoolchains.sh; else pip install -q requests; fi
+install: scripts/gettoolchains.sh
 script: scripts/readytorock.sh
 env:
   global:
@@ -18,6 +19,7 @@ env:
     - TO_BUILD="x86 x86_64"
     - TO_BUILD="mips mips64"
     - TO_BUILD="mipseb"
+before_deploy: scripts/settags.sh
 deploy:
   provider: releases
   prerelease: true
@@ -29,4 +31,4 @@ deploy:
   on:
     tags: true
     repo: yashdsaraf/bb-bot
-    branch: testing
+    all_branches: true
